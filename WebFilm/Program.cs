@@ -92,21 +92,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
    string jwtSecretKey = builder.Configuration.GetValue<string>("Jwt:SecretKey");
-        if (string.IsNullOrEmpty(jwtSecretKey))
+        if (!string.IsNullOrEmpty(jwtSecretKey))
         {
-            throw new ArgumentException("Jwt secret key must be configured");
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer"),
+                ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey))
+            };
         }
-
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer"),
-            ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey))
-        };
 });
 
 builder.Services.AddLogging(logging =>
