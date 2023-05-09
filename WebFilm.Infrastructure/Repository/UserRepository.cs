@@ -233,7 +233,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = "SELECT count(*) as totalUser, ( select count(DISTINCT `order`.customerID) from `order`) as totalUserOrdered from User;";
+                var sqlCommand = "SELECT count(*) as totalUser, ( select count(DISTINCT `Order`.customerID) from `Order`) as totalUserOrdered from User;";
                 var res = SqlConnection.QueryFirstOrDefault<StatisticUser>(sqlCommand);
 
                 //Trả dữ liệu về client
@@ -246,7 +246,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = "SELECT count(*) as totalProduct, ( select count(*) from `product` where product.status = 'ACTIVE') as totalActiveProduct from Product;\r\n";
+                var sqlCommand = "SELECT count(*) as totalProduct, ( select count(*) from `Product` where Product.status = 'ACTIVE') as totalActiveProduct from Product;\r\n";
                 var res = SqlConnection.QueryFirstOrDefault<StatisticProduct>(sqlCommand);
 
                 //Trả dữ liệu về client
