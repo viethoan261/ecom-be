@@ -39,7 +39,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = $@"INSERT INTO payment (OrderID, Amount, PaymentDate, CreatedDate, ModifiedDate)
+                var sqlCommand = $@"INSERT INTO Payment (OrderID, Amount, PaymentDate, CreatedDate, ModifiedDate)
                                               VALUES (@v_OrderID, @v_Amount, NOW(), NOW(),  NOW());";
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("v_OrderID", orderID);

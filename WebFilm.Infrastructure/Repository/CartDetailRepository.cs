@@ -23,7 +23,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = $@"SELECT * from `CartDetail` where productID = @v_productID and size = @v_size and color = @v_color and cartID = @v_cartID and status = 'ACTIVE';";
+                var sqlCommand = $@"SELECT * from `CartDetail` where ProductID = @v_productID and Size = @v_size and Color = @v_color and cartID = @v_cartID and status = 'ACTIVE';";
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@v_productID", productID);
                 parameters.Add("@v_size", size);

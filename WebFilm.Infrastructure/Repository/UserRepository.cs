@@ -35,7 +35,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = $@"INSERT INTO user (UserName, FullName, Password, Email, Status, Role,CreatedDate, ModifiedDate, Phone)
+                var sqlCommand = $@"INSERT INTO User (UserName, FullName, Password, Email, Status, Role,CreatedDate, ModifiedDate, Phone)
                                               VALUES (@v_UserName, @v_FullName, @v_Password, @v_Email, 1, @v_Role, NOW(),  NOW(), @v_Phone);";
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("v_UserName", user.userName);
@@ -62,7 +62,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = $"SELECT * FROM user WHERE Username = @v_Username";
+                var sqlCommand = $"SELECT * FROM User WHERE Username = @v_Username";
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@v_Username", username);
                 var res = SqlConnection.QueryFirstOrDefault<User>(sqlCommand, parameters);
@@ -111,7 +111,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCheck = "UPDATE user SET Status = 2 WHERE Email = @v_Email";
+                var sqlCheck = "UPDATE User SET Status = 2 WHERE Email = @v_Email";
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@v_Email", email);
 
@@ -125,7 +125,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCheck = "UPDATE user u SET Password = @v_NewPass WHERE u.Email = @v_Email;";
+                var sqlCheck = "UPDATE User u SET Password = @v_NewPass WHERE u.Email = @v_Email;";
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@v_Email", email);
                 parameters.Add("@v_NewPass", newPass);
@@ -233,7 +233,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = "SELECT count(*) as totalUser, ( select count(DISTINCT `order`.customerID) from `order`) as totalUserOrdered from user;";
+                var sqlCommand = "SELECT count(*) as totalUser, ( select count(DISTINCT `order`.customerID) from `order`) as totalUserOrdered from User;";
                 var res = SqlConnection.QueryFirstOrDefault<StatisticUser>(sqlCommand);
 
                 //Trả dữ liệu về client
@@ -246,7 +246,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = "SELECT count(*) as totalProduct, ( select count(*) from `product` where product.status = 'ACTIVE') as totalActiveProduct from product;\r\n";
+                var sqlCommand = "SELECT count(*) as totalProduct, ( select count(*) from `product` where product.status = 'ACTIVE') as totalActiveProduct from Product;\r\n";
                 var res = SqlConnection.QueryFirstOrDefault<StatisticProduct>(sqlCommand);
 
                 //Trả dữ liệu về client
@@ -259,7 +259,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = "select `order`.status as status, count(*) as totalOrder \r\nfrom `order`\r\ngroup by `order`.`Status`;";
+                var sqlCommand = "select `Order`.status as status, count(*) as totalOrder \r\nfrom `Order`\r\ngroup by `Order`.`Status`;";
                 var res = SqlConnection.Query<StatisticOrder>(sqlCommand);
 
                 //Trả dữ liệu về client
@@ -272,7 +272,7 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = "SELECT DATE(paymentdate) AS paymentDate, SUM(amount) AS totalAmount\r\nFROM payment\r\nGROUP BY DATE(paymentdate);";
+                var sqlCommand = "SELECT DATE(paymentdate) AS paymentDate, SUM(amount) AS totalAmount\r\nFROM Payment\r\nGROUP BY DATE(paymentdate);";
                 var res = SqlConnection.Query<StatisticTurnover>(sqlCommand);
 
                 //Trả dữ liệu về client
